@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending'); // Enum column for task status with default value
             $table->timestamps(); // Timestamp columns created_at and updated_at
 
-            
+
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('tasks'); // Drops the tasks table if it exists when rolling back migrations
     }
 };
