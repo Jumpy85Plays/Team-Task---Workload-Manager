@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('tasks', function (Blueprint $table) {
+      Schema::create('users', function (Blueprint $table) {
             $table->id(); // Primary key column called id that auto-increments
             $table->string('name'); // String column for the task name
             $table->enum('role', ['admin','employee']); // Enum column for task role, either admin or employee
