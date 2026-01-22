@@ -8,3 +8,5 @@ had to manually rename some files as the order i generated them broke some depen
 Update:
 
 Still trying to wrap my head around the proper syntax, getting to it but is taking a while.
+
+New difficulty found in the connection between the frontend and the backend (which is the standard according to sir's and the video courses.) Currently finding a way to ensure that 
