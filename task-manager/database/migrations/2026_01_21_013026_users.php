@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use function Laravel\Prompts\table;
-use function PHPUnit\Framework\callback;
 
 return new class extends Migration
 {
@@ -13,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id(); // Primary key column called id that auto-increments
-            $table->string('name'); // String column for the task name
-            $table->enum('role', ['admin','employee']); // Enum column for task role, either admin or employee
-            $table->timestamps(); // Timestamp columns for when the users account was created_at and updated_at
-
-
+            $table->string('name'); // Name of the user
+            $table->string('email')->unique(); // Email column, unique for authentication
+            $table->string('password'); // Password column for authentication
+            $table->enum('role', ['admin', 'employee']); // Role: admin or employee
+            $table->timestamps(); // created_at and updated_at
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');  // Drops the users table if it exists when rolling back migrations
+        Schema::dropIfExists('users'); // Correct table to drop
     }
 };

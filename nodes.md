@@ -4,3 +4,7 @@ Php was not letting me create the project initially until i manually uncommented
 
 FIXED Having some problems in trying to actually use the migration function in laravel. 
 had to manually rename some files as the order i generated them broke some dependancies.
+
+Update:
+
+Still trying to wrap my head around the proper syntax, getting to it but is taking a while.
