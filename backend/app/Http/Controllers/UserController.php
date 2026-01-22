@@ -25,9 +25,11 @@ class UserController extends Controller
     }
 
     // Logs out the currently authenticated user and clears the session
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout(); // Logs out the user
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return response()->json(['message' => 'Logged out']);
     }
 
