@@ -9,4 +9,6 @@ Update:
 
 Still trying to wrap my head around the proper syntax, getting to it but is taking a while.
 
-New difficulty found in the connection between the frontend and the backend (which is the standard according to sir's and the video courses.) Currently finding a way to ensure that 
+New difficulty found in the connection between the frontend and the backend (which is the standard according to sir's and the video courses.) Currently finding a way to ensure that it never happens again.
+
+SIDE NOTE : Never put restrictions on the #root portion of css and only put it on what i want to restrict. It causes problems. 
