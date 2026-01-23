@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    // Creates a task using only columns defined in the tasks table
-    // Then syncs the task with an array of user IDs via the pivot table
+    // Create a task and assign users
     public function store(Request $request)
     {
         $request->validate([
@@ -18,39 +17,36 @@ class TaskController extends Controller
             'user_ids' => 'required|array'
         ]);
 
-        // Inserts into tasks table (id, title, description, status, timestamps)
         $task = Task::create([
             'title' => $request->title,
             'description' => $request->description,
             'status' => $request->status,
         ]);
 
-        // Populates tasks_user pivot table
         $task->users()->sync($request->user_ids);
 
         return response()->json($task, 201);
     }
 
-    // Fetches all tasks assigned to a specific user
+    // Get all tasks for a specific user
     public function myTasks($userId)
     {
-        // Filters tasks by pivot relationship
-        return Task::whereHas('users', function ($query) use ($userId) {
+        $tasks = Task::whereHas('users', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->get();
+
+        return response()->json($tasks); // Ensures Axios gets JSON
     }
 
-    // Updates only the status column of a task
+    // Update status of a task
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
             'status' => 'required|in:pending,in progress,completed'
         ]);
 
-        // Finds task by primary key or returns 404
         $task = Task::findOrFail($id);
 
-        // Updates status column only
         $task->update([
             'status' => $request->status
         ]);

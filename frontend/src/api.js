@@ -1,7 +1,8 @@
 import axios from "axios";
 
-// Centralized API client pointing to Laravel backend
-export default axios.create({
-  baseURL: "http://localhost:8000/api",
-  withCredentials: true
+const api = axios.create({
+  baseURL: "http://127.0.0.1:8000/api", // points to Laravel API
+  headers: { "Content-Type": "application/json" }
 });
+
+export default api;

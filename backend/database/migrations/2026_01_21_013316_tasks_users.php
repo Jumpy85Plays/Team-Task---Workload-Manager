@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tasks_user', function (Blueprint $table) {
-// Creates a new table in the database called tasks_user if it doesnt already exist. If it does exist it will not try to create it again and will be skipped. 
+        // Creates a new table in the database called tasks_user if it doesnt already exist. If it does exist it will not try to create it again and will be skipped.
             $table->id();                       // Adds a primary key column called id that auto-increments
             $table->unsignedBigInteger('task_ID'); // Adds an integer column task_ID to store the reference to a task
             $table->unsignedBigInteger('user_ID'); // Adds an integer column user_ID to store the reference to a user
