@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -17,7 +18,28 @@ class UserController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        return response()->json(Auth::user()); // Must return id + role
+        $user = Auth::user();
+
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+        ]);
+    }
+
+    // List users (supports ?role=employee)
+    public function index(Request $request)
+    {
+        $query = User::query();
+
+        if ($request->query('role')) {
+            $query->where('role', $request->query('role'));
+        }
+
+        $users = $query->get();
+
+        return response()->json($users);
     }
 
     // Log out user
@@ -29,13 +51,24 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Logged out']);
     }
-}
-//     // Get tasks for a specific user
-//     public function tasks($id)
-//     {
-//         $user = User::findOrFail($id);
-//         $tasks = $user->tasks; // Assuming User model has tasks relationship
 
-//         return response()->json($tasks); // Ensures Axios gets JSON
-//     }
-// }
+    // Optional: Create user (admin can call this, no middleware enforced here)
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'role' => 'required|in:admin,employee',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
+
+        return response()->json($user, 201);
+    }
+}

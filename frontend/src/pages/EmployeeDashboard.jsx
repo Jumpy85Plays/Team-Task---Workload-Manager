@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   AppBar,
@@ -72,7 +73,7 @@ export default function EmployeeDashboard({ user, onLogout }) {
       console.error("Failed to update task:", error);
     }
   };
-
+  
   const getStatusColor = (status) => {
     switch (status) {
       case "completed":

@@ -1,4 +1,4 @@
-// src/pages/LoginMUI.jsx
+// src/pages/Login.jsx
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,10 +14,10 @@ import {
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 import api from "../api";
 
-// Image placed in: src/assets/login-image.jpg
+// Image placed in: src/assets/login-image.png
 import loginImage from "../assets/login-image.png";
 
-export default function LoginMUI() {
+export default function LoginMUI({ onLogin }) {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -25,25 +25,22 @@ export default function LoginMUI() {
   const [darkMode, setDarkMode] = useState(false);
   const [error, setError] = useState("");
 
-  // Detects small screens (mobile/tablet)
   const isMobile = useMediaQuery("(max-width:900px)");
 
   const handleLogin = async () => {
     try {
       setError("");
 
-      // Sends credentials to Laravel backend
       const response = await api.post("/login", { email, password });
 
-      // Role is determined by database value
-      const role = response.data.role;
+      const userData = response.data; // must include id, email, role
 
-      if (role === "admin") {
+      onLogin(userData);
+
+      if (userData.role === "admin") {
         navigate("/admin-dashboard");
-      } else if (role === "employee") {
-        navigate("/employee-dashboard");
       } else {
-        setError("Invalid role");
+        navigate("/employee-dashboard");
       }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");

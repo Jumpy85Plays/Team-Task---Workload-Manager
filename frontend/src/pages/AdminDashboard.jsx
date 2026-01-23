@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   AppBar,
@@ -59,10 +60,10 @@ export default function AdminDashboard({ user, onLogout }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [tasksRes, employeesRes] = await Promise.all([
-          api.get("/tasks"),
-          api.get("/users?role=employee")
-        ]);
+       const [tasksRes, employeesRes] = await Promise.all([
+        api.get("/tasks"), // GET tasks
+        api.get("/users?role=employee") // GET users
+]);
         setTasks(tasksRes.data);
         setEmployees(employeesRes.data);
       } catch (error) {
